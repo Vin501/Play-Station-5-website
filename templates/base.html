@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}My PS5 App{% endblock %}</title>
+
+  <style>
+    /* ---------------- GLOBAL LAYOUT ---------------- */
+    :root{
+      --max-w: 1200px;
+      --nav-bg: rgba(6,10,20,0.9);
+      --muted: rgba(255,255,255,0.05);
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #e6eef7;
+      background: radial-gradient(circle at top left, #0f172a, #1e293b);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    /* ---------------- NAVBAR ---------------- */
+     header.site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      background: var(--nav-bg);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      padding: 14px 28px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      box-sizing: border-box;
+      width: 100%;
+      gap: 12px;
+    }
+
+    /* Brand name (Play Station) - left aligned */
+    .brand-name {
+      font-weight: 700;
+      font-size: 22px;
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(59,130,246,0.8);
+      /* ensure it stays left and only occupies necessary width */
+      flex: 0 0 auto;
+      text-align: left;
+    }
+
+    /* Navbar links - pushed to right */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      /* push this group to the far right */
+      margin-left: auto;
+    }
+
+    .nav-links a {
+      position: relative;
+      color: #cfe7ff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 6px 2px;
+      transition: color 240ms ease, transform 220ms ease;
+    }
+
+    /* Hover underline + glow */
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0%;
+      height: 3px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      box-shadow: 0 0 12px rgba(59,130,246,0.8);
+      transition: width 280ms ease;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+      transform: translateY(-2px);
+      text-shadow: 0 0 10px rgba(59,130,246,0.6);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a[aria-current="page"]::after {
+      width: 100%;
+    }
+
+    .nav-links a[aria-current="page"] {
+      color: #fff;
+      text-shadow: 0 0 8px rgba(59,130,246,0.9);
+    }
+
+    /* ---------------- MAIN (CENTERING) ---------------- */
+    /* main is center both vertically and horizontally */
+    main {
+      flex: 1;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 40px 20px;
+      display: grid;
+      place-items: center; /* centers child both axes */
+      min-height: calc(100vh - 120px); /* gives room so centering works visually */
+    }
+
+    /* container for centered card so it doesn't grow too wide */
+    .center-card {
+      max-width: 880px;
+      width: 100%;
+      padding: 36px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      text-align: center;
+    }
+
+    .center-card h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .center-card p {
+      margin: 0;
+      font-size: 16px;
+      color: #dbeafe;
+    }
+
+    /* ---------------- FOOTER ---------------- */
+     footer.site-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: var(--nav-bg);
+      color: #ccd9ee;
+      text-align: center;
+      padding: 14px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.4);
+    }
+
+    /* ---------------- RESPONSIVE ---------------- */
+    @media (max-width: 768px) {
+      .nav-inner {
+        padding: 12px 16px;
+      }
+      .brand-name {
+        font-size: 20px;
+      }
+      .nav-links { gap: 14px; }
+      main { padding: 28px 12px; min-height: calc(100vh - 100px); }
+      .center-card { padding: 24px; border-radius: 10px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <header class="site-nav">
+    <div class="nav-inner">
+      <div class="brand-name">Play Station 5</div>
+
+      <nav class="nav-links" role="navigation" aria-label="Main navigation">
+        <a href="{{ url_for('dashboard') }}" {% if request.endpoint == 'dashboard' %}aria-current="page"{% endif %}>Dashboard</a>
+        <a href="{{ url_for('profile') }}" {% if request.endpoint == 'profile' %}aria-current="page"{% endif %}>Profile</a>
+        <a href="{{ url_for('games') }}" {% if request.endpoint == 'games' %}aria-current="page"{% endif %}>Games</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    {# Provide a wrapper so dashboard content centers reliably. Your dashboards can still supply any markup inside this block. #}
+    {% block content %}
+      <!-- Example center card (replace with your content) -->
+      <div class="center-card">
+        <h2>Welcome, Keanu R</h2>
+        <p>This is your Dashboard</p>
+      </div>
+    {% endblock %}
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    © {{ current_year }} My PS5 App | All rights reserved.
+  </footer>
+
+  <script>
+    // Clean URL after logout
+    (function cleanupAfterLogout() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('logged_out')) {
+          params.delete('logged_out');
+          const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+          history.replaceState(null, '', newUrl);
+          const arrow = document.getElementById('backArrow');
+          if (arrow) arrow.style.display = 'none';
+        }
+      } catch (e) {
+        // silent fail
+      }
+    })();
+  </script>
+</body>
+</html>
