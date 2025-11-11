@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Register</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+  <style>
+    body {
+      background: url("{{ url_for('static', filename='images/login_page.jpg') }}") no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      color: white;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+      padding: 40px 35px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    form {
+      text-align: left;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="password"],
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      box-sizing: border-box;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    textarea {
+      height: 70px;
+      resize: none;
+    }
+
+    input:focus,
+    textarea:focus {
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .input-group {
+      position: relative;
+      width: 100%;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 18px;
+      user-select: none;
+    }
+
+    .toggle-password:hover {
+      color: white;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background: rgba(255, 255, 255, 0.35);
+      transform: scale(1.02);
+    }
+
+    p {
+      margin-top: 15px;
+      color: #fff;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    p a {
+      color: #fff;
+      text-decoration: underline;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    p a:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Create Account</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <p style="color: #ff8080; text-align: center;">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" id="registerForm" novalidate>
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="tel" name="mobile" id="mobile" placeholder="Mobile Number (10 digits)" required maxlength="10" pattern="[0-9]{10}">
+      <textarea name="address" placeholder="Address" required></textarea>
+      <input type="email" name="email" id="email" placeholder="Email (Gmail only)" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com">
+      <input type="text" name="username" placeholder="Username" required>
+
+      <!-- Password Field with Eye Toggle -->
+      <div class="input-group">
+        <input type="password" name="password" id="password" placeholder="Password" required>
+        <span class="toggle-password" onclick="togglePassword('password', this)">👁️</span>
+      </div>
+
+      <!-- Confirm Password Field with Eye Toggle -->
+      <div class="input-group">
+        <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required>
+        <span class="toggle-password" onclick="togglePassword('confirm_password', this)">👁️</span>
+      </div>
+
+      <button type="submit">Register</button>
+    </form>
+
+    <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+  </div>
+
+  <script>
+    // ✅ Validation Logic
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      const name = document.querySelector('[name="name"]').value.trim();
+      const mobile = document.querySelector('[name="mobile"]').value.trim();
+      const address = document.querySelector('[name="address"]').value.trim();
+      const email = document.querySelector('[name="email"]').value.trim();
+      const username = document.querySelector('[name="username"]').value.trim();
+      const password = document.querySelector('[name="password"]').value.trim();
+      const confirm_password = document.querySelector('[name="confirm_password"]').value.trim();
+
+      if (!name || !mobile || !address || !email || !username || !password || !confirm_password) {
+        alert("Please fill all the details.");
+        e.preventDefault();
+        return;
+      }
+
+      if (!/^\d{10}$/.test(mobile)) {
+        alert("Please enter a valid 10-digit mobile number.");
+        e.preventDefault();
+        return;
+      }
+
+      if (!/@gmail\.com$/i.test(email)) {
+        alert("Only Gmail addresses are allowed.");
+        e.preventDefault();
+        return;
+      }
+
+      const pwRegex = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}/;
+      if (!pwRegex.test(password)) {
+        alert("Password must be at least 8 characters and include uppercase, lowercase, a number, and a special character.");
+        e.preventDefault();
+        return;
+      }
+
+      if (password !== confirm_password) {
+        alert("Passwords do not match.");
+        e.preventDefault();
+        return;
+      }
+    });
+
+    // ✅ Toggle Password Visibility
+    function togglePassword(fieldId, iconElement) {
+      const field = document.getElementById(fieldId);
+      if (field.type === 'password') {
+        field.type = 'text';
+        iconElement.textContent = '🙈';
+      } else {
+        field.type = 'password';
+        iconElement.textContent = '👁️';
+      }
+    }
+  </script>
+</body>
+</html>

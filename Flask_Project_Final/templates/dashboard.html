@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+
+<meta charset="utf-8">
+<title>Dashboard</title>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: url("{{ url_for('static', filename='images/dashboard.jpg') }}") no-repeat center center fixed;
+  background-size: cover;
+  color: #f1f5f9;
+  font-family: "Segoe UI", sans-serif;
+  height: 100vh; /* ✅ changed from min-height */
+  overflow: hidden; /* ✅ remove unwanted scroll */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content wrapper */
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Content area */
+.content-area {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Transparent glass box */
+.dashboard-box {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.35);
+  padding: 60px 80px;
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+}
+
+/* Text styling */
+.dashboard-box h2 {
+  font-size: 30px;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.dashboard-box p {
+  color: #e2e8f0;
+  font-size: 16px;
+}
+
+/* Footer */
+footer.site-footer {
+  background-color: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
+  color: #cbd5e1;
+  margin-top: auto; /* ✅ keeps footer pinned bottom */
+}
+</style>
+
+<body>
+  <div class="main-wrapper">
+    <div class="content-area">
+      <div class="dashboard-box">
+        <h2>Welcome to Your Dashboard</h2>
+        <p>Here you can access all your PS5 features, view stats, and manage your account.</p>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      © 2025 My PS5 App | All rights reserved.
+    </footer>
+  </div>
+</body>
+
+{% endblock %}

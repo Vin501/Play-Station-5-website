@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% block content %}
+
+<meta charset="utf-8">
+<title>Games</title>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at top left, #0f172a, #1e293b);
+  color: #f1f5f9;
+  font-family: "Segoe UI", sans-serif;
+  min-height: 100vh;
+}
+
+/* Solid header & footer */
+header.site-nav,
+footer.site-footer {
+  background-color: #0f172a !important;
+  opacity: 1;
+}
+
+/* Wrapper for scrollable layout */
+.main-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Center the content and allow scroll */
+.content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 60px 20px;
+}
+
+/* Title */
+.content-area h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 40px;
+  color: #ffffff;
+}
+
+/* Container for all cards */
+.games-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Game card style */
+.game-card {
+  width: 300px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.game-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+}
+
+/* Image inside each card */
+.game-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Game name */
+.game-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 15px 0 10px 0;
+  color: #e2e8f0;
+}
+
+/* Play button */
+.play-btn {
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.play-btn:hover {
+  background: linear-gradient(90deg, #1d4ed8, #3b82f6);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1000px) {
+  .games-container {
+    gap: 20px;
+  }
+  .game-card {
+    width: 45%;
+  }
+}
+
+@media (max-width: 600px) {
+  .game-card {
+    width: 90%;
+  }
+}
+
+/* Footer */
+footer.site-footer {
+  text-align: center;
+  padding: 15px 0;
+  font-size: 14px;
+  color: #94a3b8;
+}
+</style>
+
+<body>
+  <div class="main-wrapper">
+    <div class="content-area">
+      <h2>Game Zone</h2>
+
+      <div class="games-container">
+        <div class="game-card">
+          <img src="{{ url_for('static', filename='images/Spider Man.png') }}" alt="Spider Man II">
+          <h3>Spider Man II</h3>
+          <button class="play-btn">Play Now</button>
+        </div>
+
+        <div class="game-card">
+          <img src="{{ url_for('static', filename='images/god_of_war.jpg') }}" alt="God of War Ragnarok">
+          <h3>God of War - Ragnarok</h3>
+          <button class="play-btn">Play Now</button>
+        </div>
+
+        <div class="game-card">
+          <img src="{{ url_for('static', filename='images/john_wick.jpg') }}" alt="John Wick">
+          <h3>John Wick</h3>
+          <button class="play-btn">Play Now</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      © 2025 My PS5 App | All rights reserved.
+    </footer>
+  </div>
+</body>
+
+{% endblock %}

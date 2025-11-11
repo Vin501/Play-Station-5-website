@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+
+<meta charset="utf-8">
+<title>Profile</title>
+
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: 
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("{{ url_for('static', filename='images/profile.jpg') }}") no-repeat center center fixed;
+  background-size: cover;
+  color: #f1f5f9;
+  font-family: "Segoe UI", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Transparent profile box */
+.profile-box {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+  padding: 50px 70px;
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+}
+
+/* Text styling */
+.profile-box h2 {
+  color: #ffffff;
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+.profile-box p {
+  color: #cbd5e1;
+  font-size: 16px;
+  margin: 8px 0;
+}
+
+/* Fixed footer */
+footer.site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #0f172a;
+  color: #94a3b8;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
+  z-index: 10;
+}
+</style>
+
+<body>
+  <div class="profile-box">
+    <h2>Your Profile</h2>
+    <p><strong>Name:</strong> {{ user.name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Contact number:</strong> {{ user.mobile}}</p>
+  </div>
+
+  <footer class="site-footer">
+    © 2025 My PS5 App | All rights reserved.
+  </footer>
+</body>
+
+{% endblock %}
