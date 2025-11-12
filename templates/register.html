@@ -47,7 +47,6 @@
     input[type="tel"],
     input[type="email"],
     input[type="password"],
-    input[type="text"],
     textarea {
       width: 100%;
       padding: 10px;
@@ -152,7 +151,12 @@
       <input type="tel" name="mobile" id="mobile" placeholder="Mobile Number (10 digits)" required maxlength="10" pattern="[0-9]{10}">
       <textarea name="address" placeholder="Address" required></textarea>
       <input type="email" name="email" id="email" placeholder="Email (Gmail only)" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com">
-      <input type="text" name="username" placeholder="Username" required>
+      
+      <!-- ✅ Username field with pattern -->
+      <input type="text" name="username" 
+       placeholder="Username (must include number & underscore)" 
+       required 
+       pattern="(?=.*\d)(?=.*_)[A-Za-z0-9_]+">
 
       <!-- Password Field with Eye Toggle -->
       <div class="input-group">
@@ -197,6 +201,14 @@
 
       if (!/@gmail\.com$/i.test(email)) {
         alert("Only Gmail addresses are allowed.");
+        e.preventDefault();
+        return;
+      }
+
+      // ✅ Username validation (must contain number and underscore)
+      const usernameRegex = /^(?=.*\d)(?=.*_)[A-Za-z0-9_]+$/;
+      if (!usernameRegex.test(username)) {
+        alert("Username must contain at least one number and one underscore (_).");
         e.preventDefault();
         return;
       }

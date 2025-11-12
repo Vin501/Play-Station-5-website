@@ -47,6 +47,17 @@ def add_no_cache_headers(response):
     response.headers['Expires'] = '0'
     return response
 
+# ---------------- VALIDATORS ----------------
+def is_valid_username(username: str) -> bool:
+    """
+    Username must:
+    - contain only letters, numbers, and underscores
+    - include at least one number and one underscore
+    Example: user_1, vinay_23, test_9
+    """
+    return bool(re.match(r'^(?=.*\d)(?=.*_)[A-Za-z0-9_]+$', username))
+
+
 # ---------------- ROUTES ----------------
 
 #Home Route
@@ -74,6 +85,11 @@ def register():
 
         if not all([name, mobile, address, email, username, password, confirm_password]):
             flash("Please fill all fields.", "error")
+            return redirect(url_for("register"))
+        
+         # ✅ Username validation: letters, numbers, underscore, dot only
+        if not re.match(r'^[A-Za-z0-9_.]+$', username):
+            flash("Username can only contain letters, numbers, underscores, and dots.", "error")
             return redirect(url_for("register"))
 
         if password != confirm_password:
